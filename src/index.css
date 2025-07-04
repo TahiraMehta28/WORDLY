@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lexicon Game Design System - Dark futuristic theme */
+
+@layer base {
+  :root {
+    /* Dark theme colors */
+    --game-bg-primary: 220 15% 8%;
+    --game-bg-secondary: 240 20% 12%;
+    --game-bg-accent: 260 25% 16%;
+    
+    --tile-empty: 240 10% 20%;
+    --tile-filled: 240 15% 25%;
+    --tile-correct: 120 60% 45%;
+    --tile-present: 45 80% 55%;
+    --tile-absent: 240 8% 30%;
+    
+    --text-primary: 0 0% 95%;
+    --text-secondary: 240 5% 70%;
+    --text-muted: 240 5% 50%;
+    
+    --border-primary: 240 15% 30%;
+    --border-active: 280 60% 60%;
+    
+    --accent-glow: 280 60% 60%;
+    --success-glow: 120 60% 45%;
+    --warning-glow: 45 80% 55%;
+    
+    --background: var(--game-bg-primary);
+    --foreground: var(--text-primary);
+    --card: var(--game-bg-secondary);
+    --card-foreground: var(--text-primary);
+    --popover: var(--game-bg-secondary);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent-glow);
+    --primary-foreground: var(--text-primary);
+    --secondary: var(--tile-filled);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--tile-empty);
+    --muted-foreground: var(--text-muted);
+    --accent: var(--game-bg-accent);
+    --accent-foreground: var(--text-primary);
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--text-primary);
+    --border: var(--border-primary);
+    --input: var(--tile-filled);
+    --ring: var(--accent-glow);
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Background animations */
+  .animated-bg {
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animated-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(139, 69, 219, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+    animation: floating-orbs 20s ease-in-out infinite;
+  }
+  
+  .animated-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      linear-gradient(45deg, transparent 30%, rgba(139, 69, 219, 0.05) 50%, transparent 70%),
+      linear-gradient(-45deg, transparent 30%, rgba(59, 130, 246, 0.05) 50%, transparent 70%);
+    animation: gradient-shift 15s ease-in-out infinite;
+  }
+  
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  
+  .particle-1 {
+    width: 4px;
+    height: 4px;
+    top: 20%;
+    left: 10%;
+    animation: float-up 8s linear infinite;
+  }
+  
+  .particle-2 {
+    width: 6px;
+    height: 6px;
+    top: 60%;
+    left: 80%;
+    animation: float-up 12s linear infinite;
+    animation-delay: -4s;
+  }
+  
+  .particle-3 {
+    width: 3px;
+    height: 3px;
+    top: 80%;
+    left: 30%;
+    animation: float-up 10s linear infinite;
+    animation-delay: -2s;
+  }
+  
+  /* Game tile styles */
+  .tile {
+    @apply w-14 h-14 border-2 rounded-lg flex items-center justify-center text-xl font-bold transition-all duration-300 select-none;
+    border-color: hsl(var(--border-primary));
+    background: hsl(var(--tile-empty));
+    color: hsl(var(--text-primary));
+  }
+  
+  .tile.filled {
+    background: hsl(var(--tile-filled));
+    border-color: hsl(var(--border-active));
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(139, 69, 219, 0.3);
+  }
+  
+  .tile.correct {
+    background: hsl(var(--tile-correct));
+    border-color: hsl(var(--tile-correct));
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    animation: tile-flip 0.6s ease-in-out;
+  }
+  
+  .tile.present {
+    background: hsl(var(--tile-present));
+    border-color: hsl(var(--tile-present));
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    animation: tile-flip 0.6s ease-in-out;
+  }
+  
+  .tile.absent {
+    background: hsl(var(--tile-absent));
+    border-color: hsl(var(--tile-absent));
+    color: hsl(var(--text-muted));
+    animation: tile-flip 0.6s ease-in-out;
+  }
+  
+  /* Typewriter effect */
+  .typewriter {
+    overflow: hidden;
+    border-right: 2px solid hsl(var(--accent-glow));
+    white-space: nowrap;
+    animation: typing 3s steps(30, end), blink-caret 1s step-end infinite;
+  }
+  
+  /* Modal styles */
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+  }
+  
+  .modal-content {
+    background: linear-gradient(135deg, hsl(var(--game-bg-secondary)), hsl(var(--game-bg-accent)));
+    border: 1px solid hsl(var(--border-primary));
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@keyframes floating-orbs {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-30px) rotate(120deg); }
+  66% { transform: translateY(20px) rotate(240deg); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes float-up {
+  0% { 
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes tile-flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0); }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: hsl(var(--accent-glow)); }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
